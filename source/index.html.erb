@@ -1,0 +1,50 @@
+---
+title: Welcome to Middleman
+---
+
+<script type="text/babel">
+  class Wallet extends React.Component {
+    constructor(props) {
+      super(props);
+
+      var coinbase = window.web3.eth.coinbase;
+
+      this.state = {
+        balance: '??',
+        coinbase: coinbase,
+      };
+
+      this.checkBalance = this.checkBalance.bind(this);
+    }
+
+    checkBalance() {
+      window.web3.eth.getBalance(this.state.coinbase, (err, balance) => {
+        this.setState({
+          balance: balance.toNumber()
+        });
+      });
+    }
+
+    render() {
+      return <div>
+        <p>Wallet Address: { this.state.coinbase }</p>
+        <p>Balance: ETH { this.state.balance }</p>
+        <div
+          onClick={ this.checkBalance }
+          className="btn btn-success">
+            Check Balance
+        </div>
+      </div>
+    }
+  }
+
+  var wallet = new Wallet();
+
+  window.addEventListener('load', () => {
+    ReactDOM.render(
+      <Wallet />,
+      document.getElementById('root')
+    );
+  });
+
+</script>
